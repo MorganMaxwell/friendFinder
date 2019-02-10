@@ -1,0 +1,6 @@
+
+2. get MVP survey and home pages up and displaying
+3. have server serving both of those pages, as well as api data
+4. gather user input, and send to back end with ajax
+5. POST user data from ajax to friend array, after comparing math stuff to all other candidates
+6. Have another page that populates with friend data after completing the survey ("Here's your new friend!" page)
