@@ -1,13 +1,36 @@
 // requiring the array of user data
 var friendList = require("./../data/friends.js");
-// exporting a route that displays all friend data as json
-module.exports = function(app) {
-    
-    app.get("/api/friendlist", function(req, res) {
+// exporting routes
+module.exports = function (app) {
+    // display all friend data in json format
+    app.get("/api/friendlist", function (req, res) {
         res.json(friendList);
     });
+    // compare userData to each friend in array to find best match
+    app.post("api/newFriend", function (req, res) {
+        var userAnswers = req.body.answers;
+        var bestFriend = {
+            name: "",
+            picture: "",
+            difference: 25
+        };
+        // iterate over each friend in array of friends
+        for (var i = 0; i < friendList.length; i++) {
+            // iterate to compare each answer to user answer
+            for (var j = 0; i < friendList[i].answers[j]; j++) {
+                var totalDifference = 0;
+                // math to determine difference of each answer from each friend answer
+                totalDifference += Math.abs(parseInt(userAnswers[j]) - parseInt(friendList[i].answers[j]));
 
-    app.post("api/newFriend", function() {
+                if (totalDifference < bestFriend.difference) {
+                    bestFriend.name = friendList[i].name;
+                    bestFriend.picture = friendList[i].picture;
+                    bestFriend.difference = totalDifference;
+                };
+            };
+        };
+        friendList.push(userAnswers);
 
-    })
+        res.json(bestFriend);
+    });
 };

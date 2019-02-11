@@ -21,16 +21,17 @@
         <div class="col-md-3"></div>
         <div class="col-md-6">
 
-            <h2>Name(required)</h2>
+            <h2>Name</h2>
             <input type="text" class="required" id="name">
 
-            <h2>Picture Link(required)</h2>
+            <h2>Picture Link</h2>
             <input type="text" class="required" id="picLink">
 
             <h4>I Enjoy Doing This In my Free Time</h4>
             <div class="form-group" id="question1">
                 <label for="exampleFormControlSelect1">Watching Movies</label>
                 <select class="form-control" id="form1">
+                    <option value=""></option>
                     <option value="1">Strongly Agree</option>
                     <option value="2">Agree</option>
                     <option value="3">Neither Agree nor Disagree</option>
@@ -41,6 +42,7 @@
             <div class="form-group" id="question2">
                 <label for="exampleFormControlSelect2">Reading Books</label>
                 <select class="form-control" id="form2">
+                    <option value=""></option>
                     <option value="1">Strongly Agree</option>
                     <option value="2">Agree</option>
                     <option value="3">Neither Agree nor Disagree</option>
@@ -51,6 +53,7 @@
             <div class="form-group" id="question3">
                 <label for="exampleFormControlSelect3">Watching Sports</label>
                 <select class="form-control" id="form3">
+                    <option value=""></option>
                     <option value="1">Strongly Agree</option>
                     <option value="2">Agree</option>
                     <option value="3">Neither Agree nor Disagree</option>
@@ -61,6 +64,7 @@
             <div class="form-group" id="question4">
                 <label for="exampleFormControlSelect4">Playing Video/Board Games</label>
                 <select class="form-control" id="form4">
+                    <option value=""></option>
                     <option value="1">Strongly Agree</option>
                     <option value="2">Agree</option>
                     <option value="3">Neither Agree nor Disagree</option>
@@ -71,6 +75,7 @@
             <div class="form-group" id="question5">
                 <label for="exampleFormControlSelect5">Hiking/Trekking</label>
                 <select class="form-control" id="form5">
+                    <option value=""></option>
                     <option value="1">Strongly Agree</option>
                     <option value="2">Agree</option>
                     <option value="3">Neither Agree nor Disagree</option>
@@ -81,6 +86,7 @@
             <div class="form-group" id="question6">
                 <label for="exampleFormControlSelect6">Exercising</label>
                 <select class="form-control" id="form6">
+                    <option value=""></option>
                     <option value="1">Strongly Agree</option>
                     <option value="2">Agree</option>
                     <option value="3">Neither Agree nor Disagree</option>
@@ -91,6 +97,7 @@
             <div class="form-group" id="question7">
                 <label for="exampleFormControlSelect7">Going Out With Friends/Family</label>
                 <select class="form-control" id="form7">
+                    <option value=""></option>
                     <option value="1">Strongly Agree</option>
                     <option value="2">Agree</option>
                     <option value="3">Neither Agree nor Disagree</option>
@@ -101,6 +108,7 @@
             <div class="form-group" id="question8">
                 <label for="exampleFormControlSelect8">Skiing/Snowboarding</label>
                 <select class="form-control" id="form8">
+                    <option value=""></option>
                     <option value="1">Strongly Agree</option>
                     <option value="2">Agree</option>
                     <option value="3">Neither Agree nor Disagree</option>
@@ -111,6 +119,7 @@
             <div class="form-group" id="question9">
                 <label for="exampleFormControlSelect9">Performing Arts(Dancing/Music/Etc.)</label>
                 <select class="form-control" id="form9">
+                    <option value=""></option>
                     <option value="1">Strongly Agree</option>
                     <option value="2">Agree</option>
                     <option value="3">Neither Agree nor Disagree</option>
@@ -121,6 +130,7 @@
             <div class="form-group" id="question10">
                 <label for="exampleFormControlSelect10">Coding!</label>
                 <select class="form-control" id="form10">
+                    <option value=""></option>
                     <option value="1">Strongly Agree</option>
                     <option value="2">Agree</option>
                     <option value="3">Neither Agree nor Disagree</option>
@@ -147,10 +157,17 @@
                     if ($(this).val() === "") {
                         isValid = false;
                     };
-                    return isValid;
                 });
+                $(".form-control").each(function () {
+                    if ($(this).val() === "") {
+                        isValid = false;
+                    };
+                });
+                return isValid;
             };
-            if (validation) {
+            // If form is valid, grab user data and send it to server 
+            // with ajax call
+            if (validation()) {
                 var newFriend = {
                     name: $("#name").val().trim(),
                     picture: $("#picLink").val().trim(),
@@ -169,15 +186,24 @@
                 };
             }
             else {
-                alert("Fill Out Name And Picture Before Submitting");
+                alert("Fill Out The Entire Form Before Submitting");
             };
-            var url = window.location.origin;
-            $.ajax({
-                url: url + "/api/newFriend",
-                method: "POST",
+            // ajax abbreviation.
+            $.post("/api/newFriend", newFriend, function (data) {
+
+                if (data) {
+                    // clear form when new user is posted
+                    $(".required").each(function () {
+                        $(this).val("");
+                    });
+                    $(".form-control").each(function () {
+                        $(this).val("");
+                    });
+                }
+                else {
+                    alert("Something Went Wrong");
+                };
             });
-
-
         });
     </script>
 </body>
