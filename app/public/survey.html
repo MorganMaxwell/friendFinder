@@ -22,10 +22,10 @@
         <div class="col-md-6">
 
             <h2>Name(required)</h2>
-            <input type="text" id="name">
+            <input type="text" class="required" id="name">
 
             <h2>Picture Link(required)</h2>
-            <input type="text" id="picLink">
+            <input type="text" class="required" id="picLink">
 
             <h4>I Enjoy Doing This In my Free Time</h4>
             <div class="form-group" id="question1">
@@ -133,36 +133,50 @@
         <div class="col-md-3"></div>
 
     </div>
-
+    <a href="/api/friendlist"><button type="button" class="btn btn-outline-secondary"
+            id="friendList">API/friendList</button> </a>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
 
         $("#submit").click(function () {
-            var newFriend = {
-                name: $("#name").val().trim(),
-                picture: $("#picLink").val().trim(),
-                answers: [
-                    $("#form1").val().trim(),
-                    $("#form2").val().trim(),
-                    $("#form3").val().trim(),
-                    $("#form4").val().trim(),
-                    $("#form5").val().trim(),
-                    $("#form6").val().trim(),
-                    $("#form7").val().trim(),
-                    $("#form8").val().trim(),
-                    $("#form9").val().trim(),
-                    $("#form10").val().trim()
-                ]
+            // check if name and picture are filled out
+            function validation() {
+                var isValid = true;
+                $(".required").each(function () {
+                    if ($(this).val() === "") {
+                        isValid = false;
+                    };
+                    return isValid;
+                });
             };
-            console.log(newFriend);
+            if (validation) {
+                var newFriend = {
+                    name: $("#name").val().trim(),
+                    picture: $("#picLink").val().trim(),
+                    answers: [
+                        $("#form1").val().trim(),
+                        $("#form2").val().trim(),
+                        $("#form3").val().trim(),
+                        $("#form4").val().trim(),
+                        $("#form5").val().trim(),
+                        $("#form6").val().trim(),
+                        $("#form7").val().trim(),
+                        $("#form8").val().trim(),
+                        $("#form9").val().trim(),
+                        $("#form10").val().trim()
+                    ]
+                };
+            }
+            else {
+                alert("Fill Out Name And Picture Before Submitting");
+            };
+            var url = window.location.origin;
             $.ajax({
-                url: "/../routing/apiRoutes.js",
+                url: url + "/api/newFriend",
                 method: "POST",
-                
-            }).then(function () {
-
             });
+
 
         });
     </script>

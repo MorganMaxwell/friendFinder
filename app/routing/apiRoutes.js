@@ -6,4 +6,8 @@ module.exports = function(app) {
     app.get("/api/friendlist", function(req, res) {
         res.json(friendList);
     });
+
+    app.post("api/newFriend", function() {
+
+    })
 };
