@@ -27,7 +27,7 @@
             <h2>Picture Link</h2>
             <input type="text" class="required" id="picLink">
 
-            <h4>I Enjoy Doing This In my Free Time</h4>
+            <h4>I Enjoy Doing This In My Free Time</h4>
             <div class="form-group" id="question1">
                 <label for="exampleFormControlSelect1">Watching Movies</label>
                 <select class="form-control" id="form1">
@@ -139,70 +139,97 @@
                 </select>
             </div>
             <button type="button" class="btn btn-secondary" id="submit">Submit</button>
+            <button type="button" class="btn btn-secondary" id="matchHide">See Your Match!</button>
         </div>
         <div class="col-md-3"></div>
-
     </div>
+    <div class="row" id="match">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="card">
+                <img class="card-img-top" alt="friendPhoto" id="matchPhoto">
+                <div class="card-body">
+                    <h5 class="card-title" id="matchName"></h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
     <a href="/api/friendlist"><button type="button" class="btn btn-outline-secondary"
             id="friendList">API/friendList</button> </a>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
+        $(document).ready(function () {
 
-        $("#submit").click(function () {
-            // check if name and picture are filled out
-            function validation() {
-                var isValid = true;
-                $(".required").each(function () {
-                    if ($(this).val() === "") {
-                        isValid = false;
-                    };
-                });
-                $(".form-control").each(function () {
-                    if ($(this).val() === "") {
-                        isValid = false;
-                    };
-                });
-                return isValid;
-            };
-            // If form is valid, grab user data and send it to server 
-            // with ajax call
-            if (validation()) {
-                var newFriend = {
-                    name: $("#name").val().trim(),
-                    picture: $("#picLink").val().trim(),
-                    answers: [
-                        $("#form1").val().trim(),
-                        $("#form2").val().trim(),
-                        $("#form3").val().trim(),
-                        $("#form4").val().trim(),
-                        $("#form5").val().trim(),
-                        $("#form6").val().trim(),
-                        $("#form7").val().trim(),
-                        $("#form8").val().trim(),
-                        $("#form9").val().trim(),
-                        $("#form10").val().trim()
-                    ]
-                };
-            }
-            else {
-                alert("Fill Out The Entire Form Before Submitting");
-            };
-            // ajax abbreviation.
-            $.post("/api/newFriend", newFriend, function (data) {
-
-                if (data) {
-                    // clear form when new user is posted
+            $("#submit").click(function () {
+                // check if name and picture are filled out
+                function validation() {
+                    var isValid = true;
                     $(".required").each(function () {
-                        $(this).val("");
+                        if ($(this).val() === "") {
+                            isValid = false;
+                        };
                     });
                     $(".form-control").each(function () {
-                        $(this).val("");
+                        if ($(this).val() === "") {
+                            isValid = false;
+                        };
                     });
+                    return isValid;
+                };
+                // If form is valid, grab user data and send it to server 
+                // with ajax call
+                if (validation()) {
+                    var newFriend = {
+                        name: $("#name").val().trim(),
+                        picture: $("#picLink").val().trim(),
+                        answers: [
+                            $("#form1").val().trim(),
+                            $("#form2").val().trim(),
+                            $("#form3").val().trim(),
+                            $("#form4").val().trim(),
+                            $("#form5").val().trim(),
+                            $("#form6").val().trim(),
+                            $("#form7").val().trim(),
+                            $("#form8").val().trim(),
+                            $("#form9").val().trim(),
+                            $("#form10").val().trim()
+                        ]
+                    };
                 }
                 else {
-                    alert("Something Went Wrong");
+                    alert("Fill Out The Entire Form Before Submitting");
                 };
+                // ajax abbreviation.
+                $.post(window.location.origin + "/api/newFriend", newFriend, function (result) {
+                    if (result) {
+                        console.log(result);
+                        // clear form when new user is posted
+                        $(".required").each(function () {
+                            $(this).val("");
+                        });
+                        $(".form-control").each(function () {
+                            $(this).val("");
+                        });
+                        // update match element with match's info
+                        $("#matchPhoto").attr("src", result.picture);
+                        // $("#matchPhoto").attr("alt", result.name);
+                        $("#matchName").text(result.name);
+                        
+                        // hides match element on page load. not ideal, but page loads quickly and hides an element at the bottom so 
+                        // it should go unnoticed
+                        $("#match").hide();
+                        // toggle the hidden element to be shown or hidden.
+                        $("#matchHide").click(function () {
+                            $("#match").toggle();
+                        });
+                    }
+                    else {
+                        alert("Something Went Wrong");
+                    };
+                });
             });
         });
     </script>

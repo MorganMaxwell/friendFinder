@@ -1,8 +1,8 @@
 // array of objects for each user
 var friends = [
     {
-        name: "morgan maxwell",
-        picture: "test",
+        name: "Morgan Maxwell",
+        picture: "https://imgur.com/kS97Brw",
         answers: [
             "5",
             "5",
@@ -18,7 +18,7 @@ var friends = [
     },
     {
         name: "Krystal Bowman",
-        picture: "test",
+        picture: "https://imgur.com/xSZ9ZLG",
         answers: [
             "1",
             "1",
