@@ -13,8 +13,10 @@
 <body>
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
-            <h1 class="display-4">Fluid jumbotron</h1>
-            <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
+            <h1 class="display-4">Friend Survey!</h1>
+            <p class="lead">Fill out the quick 10 question survey, input your name
+                and a picture of yourself, and get matched with someone who's interests are similar to yours!
+            </p>
         </div>
     </div>
     <div class="row">
@@ -163,6 +165,10 @@
     <script>
         $(document).ready(function () {
 
+            // hides match element on page load. not ideal, but page loads quickly and hides an element at the bottom so 
+            // it should go unnoticed
+            $("#match").hide();
+            
             $("#submit").click(function () {
                 // check if name and picture are filled out
                 function validation() {
@@ -205,7 +211,6 @@
                 // ajax abbreviation.
                 $.post(window.location.origin + "/api/newFriend", newFriend, function (result) {
                     if (result) {
-                        console.log(result);
                         // clear form when new user is posted
                         $(".required").each(function () {
                             $(this).val("");
@@ -216,11 +221,8 @@
                         // update match element with match's info
                         $("#matchPhoto").attr("src", result.picture);
                         // $("#matchPhoto").attr("alt", result.name);
-                        $("#matchName").text(result.name);
-                        
-                        // hides match element on page load. not ideal, but page loads quickly and hides an element at the bottom so 
-                        // it should go unnoticed
-                        $("#match").hide();
+                        $("#matchName").text(" You should be friends with: " + result.name + "!");
+
                         // toggle the hidden element to be shown or hidden.
                         $("#matchHide").click(function () {
                             $("#match").toggle();
