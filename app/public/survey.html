@@ -209,7 +209,7 @@
                     alert("Fill Out The Entire Form Before Submitting");
                 };
                 // ajax abbreviation.
-                $.put("/api/newFriend", newFriend, function (result) {
+                $.post("/api/newFriend", newFriend, function (result) {
                     if (result) {
                         // clear form when new user is posted
                         $(".required").each(function () {
