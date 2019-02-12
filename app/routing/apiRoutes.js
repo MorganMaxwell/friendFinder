@@ -17,6 +17,7 @@ module.exports = function (app) {
         // iterate over each friend in array of friendList
         for (var i = 0; i < friendList.length; i++) {
             // iterate to compare each answer to user answer
+            console.log(friendList[i]);
             for (var j = 0; i < friendList[i].answers[j]; j++) {
                 var totalDifference = 0;
                 // math to determine difference of each answer from each friend answer
@@ -29,7 +30,7 @@ module.exports = function (app) {
                 bestFriend.difference = totalDifference;
             };
         };
-        friendList.push(userAnswers);
+        friendList.push(req.body);
 
         res.json(bestFriend);
     });
