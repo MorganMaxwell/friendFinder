@@ -209,7 +209,7 @@
                     alert("Fill Out The Entire Form Before Submitting");
                 };
                 // ajax abbreviation.
-                $.post(window.location.origin + "/api/newFriend", newFriend, function (result) {
+                $.put("/api/newFriend", newFriend, function (result) {
                     if (result) {
                         // clear form when new user is posted
                         $(".required").each(function () {
@@ -227,9 +227,6 @@
                         $("#matchHide").click(function () {
                             $("#match").toggle();
                         });
-                    }
-                    else {
-                        alert("Something Went Wrong");
                     };
                 });
             });

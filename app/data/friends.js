@@ -2,7 +2,7 @@
 var friends = [
     {
         name: "Morgan Maxwell",
-        picture: "https://imgur.com/kS97Brw",
+        picture: "https://previews.123rf.com/images/arcady31/arcady311108/arcady31110800017/10101139-sample-stamp.jpg",
         answers: [
             "5",
             "5",
@@ -18,7 +18,7 @@ var friends = [
     },
     {
         name: "Krystal Bowman",
-        picture: "https://imgur.com/xSZ9ZLG",
+        picture: "https://previews.123rf.com/images/arcady31/arcady311108/arcady31110800017/10101139-sample-stamp.jpg",
         answers: [
             "1",
             "1",
